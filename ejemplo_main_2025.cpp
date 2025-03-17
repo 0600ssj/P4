@@ -1,9 +1,9 @@
 #include <iostream>
 #include <list>
 #include <map>
-#include <iostream>
 #include <string>
 #include <set>
+using namespace std;
 
 std::list<Publicacion*> publicaciones;
 std::map<std::string, Publicacion*> map_publicaciones;
@@ -45,14 +45,14 @@ class DTRefer{
 		string DOI;
 		string titulo;
 		DTFecha fecha;
-		Set(string) autores;
+		set<string> autores;
 	public:
 		DTRefer(string DOI, string titulo, DTFecha fecha);
 		~DTRefer();
 		string getDOI();
 		string getTitulo();
 		DTFecha getFecha();
-		Set(string) getAutores();
+		set<string> getAutores();
 };
 
 string DTRefer::getDOI(){
@@ -67,7 +67,7 @@ DTFecha DTRefer::getFecha(){
 	return this->fecha;
 }
 
-Set(string) DTRefer::getAutores(){}
+Set<string> DTRefer::getAutores(){}
 
 DTRefer:: DTRefer(string DOI, string titulo, DTFecha fecha){
 	this->DOI = DOI;
@@ -84,7 +84,7 @@ class Publicacion{
 		DTFecha fecha;
 	public:
 		DTRefer getDT();
-		virtual bool contienePalabra(palabra: string) = 0 ;
+		virtual bool contienePalabra(string palabra) = 0 ;
 };
 
 DTRefer Publicacion::getDT(){}
@@ -94,29 +94,30 @@ class ArticuloRevista : public Publicacion{
 		string revista;
 		string extracto;
 	public:
-		bool contienePalabra(palabra: string);
-}
+		bool contienePalabra(string palabra);
+};
 
-bool ArticuloRevista::contienePalabra(palabra: string){}
+bool ArticuloRevista::contienePalabra(string palabra){}
 
 class Libro : public Publicacion{
 	private:
 		string editorial;
-		Set(string) palabrasDestacadas;
+		set<string> palabrasDestacadas;
 	public:
-		bool contienePalabra(palabra: string);
-}
+		bool contienePalabra(string palabra);
+};
 
-bool Libro::contienePalabra(palabra: string){}
+bool Libro::contienePalabra(string palabra){}
 
 class PaginaWeb : public Publicacion{
 	private:
 		string url;
 		string contenidoExtraido;
 	public:
-		bool contienePalabra(palabra: string);
-}
-bool PaginaWeb::contienePalabra(palabra: string){}
+		bool contienePalabra(string palabra);
+};
+
+bool PaginaWeb::contienePalabra(string palabra){}
 
 class Investigador{
 	private: 
@@ -125,10 +126,11 @@ class Investigador{
 		string institucion;
 	public:
 		string toString();
-		Set(String) listaPublicaciones(desde: DTFecha,palabra: String);
-}
+		set<string> listaPublicaciones(DTFecha desde,string palabra);
+};
+
 string Investigador::toString(){}
-Set(String) Investigador ::listaPublicaciones(desde: DTFecha,palabra: String){}
+set<string> Investigador ::listaPublicaciones(DTFecha desde,string palabra){}
 
 void coleccion_guardarPublicacion(Publicacion* pub){
 	publicaciones.push_back(pub);
