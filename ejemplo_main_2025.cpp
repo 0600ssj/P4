@@ -1,13 +1,134 @@
-/*
 #include <iostream>
 #include <list>
 #include <map>
+#include <iostream>
+#include <string>
+#include <set>
 
 std::list<Publicacion*> publicaciones;
 std::map<std::string, Publicacion*> map_publicaciones;
 
 std::list<Investigador*> investigadores;
 std::map<std::string, Investigador*> map_investigadores;
+
+class DTFecha{
+	private:
+		int dia,mes,anio;
+	public:
+		DTFecha(int,int,int);
+		~DTFecha();
+		int getDia();
+		int getMes();
+		int getAnio();	
+};
+
+DTFecha::DTFecha(int a, int b, int c){
+	this->dia = a;
+	this->mes = b;
+	this->anio = c;
+}
+
+DTFecha::~DTFecha(){}
+
+int DTFecha::getDia(){
+	return this->dia;
+}
+int DTFecha::getMes(){
+	return this->mes;
+}
+int DTFecha::getAnio(){
+	return this->anio;
+}
+
+class DTRefer{
+	private:
+		string DOI;
+		string titulo;
+		DTFecha fecha;
+		Set(string) autores;
+	public:
+		DTRefer(string DOI, string titulo, DTFecha fecha);
+		~DTRefer();
+		string getDOI();
+		string getTitulo();
+		DTFecha getFecha();
+		Set(string) getAutores();
+};
+
+string DTRefer::getDOI(){
+	return this->DOI;
+}
+
+string DTRefer::getTitulo(){
+	return this->titulo;
+}
+
+DTFecha DTRefer::getFecha(){
+	return this->fecha;
+}
+
+Set(string) DTRefer::getAutores(){}
+
+DTRefer:: DTRefer(string DOI, string titulo, DTFecha fecha){
+	this->DOI = DOI;
+	this->titulo = titulo;
+	this->fecha = fecha;
+}
+
+DTRefer::~DTRefer(){};
+
+class Publicacion{
+	protected:
+		string DOI;
+		string titulo;
+		DTFecha fecha;
+	public:
+		DTRefer getDT();
+		virtual bool contienePalabra(palabra: string) = 0 ;
+};
+
+DTRefer Publicacion::getDT(){}
+
+class ArticuloRevista : public Publicacion{
+	private:
+		string revista;
+		string extracto;
+	public:
+		bool contienePalabra(palabra: string);
+}
+
+bool ArticuloRevista::contienePalabra(palabra: string){}
+
+class Libro : public Publicacion{
+	private:
+		string editorial;
+		Set(string) palabrasDestacadas;
+	public:
+		bool contienePalabra(palabra: string);
+}
+
+bool Libro::contienePalabra(palabra: string){}
+
+class PaginaWeb : public Publicacion{
+	private:
+		string url;
+		string contenidoExtraido;
+	public:
+		bool contienePalabra(palabra: string);
+}
+bool PaginaWeb::contienePalabra(palabra: string){}
+
+class Investigador{
+	private: 
+		string ORCID;
+		string nombre;
+		string institucion;
+	public:
+		string toString();
+		Set(String) listaPublicaciones(desde: DTFecha,palabra: String);
+}
+string Investigador::toString(){}
+Set(String) Investigador ::listaPublicaciones(desde: DTFecha,palabra: String){}
 
 void coleccion_guardarPublicacion(Publicacion* pub){
 	publicaciones.push_back(pub);
@@ -96,4 +217,3 @@ int main() {
 
 	return 0;
 }
-*/
