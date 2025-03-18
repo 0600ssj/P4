@@ -3,6 +3,8 @@
 #include <map>
 #include <string>
 #include <set>
+#include "clases.cpp"
+
 using namespace std;
 
 std::list<Publicacion*> publicaciones;
@@ -10,127 +12,6 @@ std::map<std::string, Publicacion*> map_publicaciones;
 
 std::list<Investigador*> investigadores;
 std::map<std::string, Investigador*> map_investigadores;
-
-class DTFecha{
-	private:
-		int dia,mes,anio;
-	public:
-		DTFecha(int,int,int);
-		~DTFecha();
-		int getDia();
-		int getMes();
-		int getAnio();	
-};
-
-DTFecha::DTFecha(int a, int b, int c){
-	this->dia = a;
-	this->mes = b;
-	this->anio = c;
-}
-
-DTFecha::~DTFecha(){}
-
-int DTFecha::getDia(){
-	return this->dia;
-}
-int DTFecha::getMes(){
-	return this->mes;
-}
-int DTFecha::getAnio(){
-	return this->anio;
-}
-
-class DTRefer{
-	private:
-		string DOI;
-		string titulo;
-		DTFecha fecha;
-		set<string> autores;
-	public:
-		DTRefer(string DOI, string titulo, DTFecha fecha);
-		~DTRefer();
-		string getDOI();
-		string getTitulo();
-		DTFecha getFecha();
-		set<string> getAutores();
-};
-
-string DTRefer::getDOI(){
-	return this->DOI;
-}
-
-string DTRefer::getTitulo(){
-	return this->titulo;
-}
-
-DTFecha DTRefer::getFecha(){
-	return this->fecha;
-}
-
-Set<string> DTRefer::getAutores(){}
-
-DTRefer:: DTRefer(string DOI, string titulo, DTFecha fecha){
-	this->DOI = DOI;
-	this->titulo = titulo;
-	this->fecha = fecha;
-}
-
-DTRefer::~DTRefer(){};
-
-class Publicacion{
-	protected:
-		string DOI;
-		string titulo;
-		DTFecha fecha;
-	public:
-		DTRefer getDT();
-		virtual bool contienePalabra(string palabra) = 0 ;
-};
-
-DTRefer Publicacion::getDT(){}
-
-class ArticuloRevista : public Publicacion{
-	private:
-		string revista;
-		string extracto;
-	public:
-		bool contienePalabra(string palabra);
-};
-
-bool ArticuloRevista::contienePalabra(string palabra){}
-
-class Libro : public Publicacion{
-	private:
-		string editorial;
-		set<string> palabrasDestacadas;
-	public:
-		bool contienePalabra(string palabra);
-};
-
-bool Libro::contienePalabra(string palabra){}
-
-class PaginaWeb : public Publicacion{
-	private:
-		string url;
-		string contenidoExtraido;
-	public:
-		bool contienePalabra(string palabra);
-};
-
-bool PaginaWeb::contienePalabra(string palabra){}
-
-class Investigador{
-	private: 
-		string ORCID;
-		string nombre;
-		string institucion;
-	public:
-		string toString();
-		set<string> listaPublicaciones(DTFecha desde,string palabra);
-};
-
-string Investigador::toString(){}
-set<string> Investigador ::listaPublicaciones(DTFecha desde,string palabra){}
 
 void coleccion_guardarPublicacion(Publicacion* pub){
 	publicaciones.push_back(pub);
