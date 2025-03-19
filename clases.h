@@ -34,6 +34,9 @@ class DTRefer{
 		string getTitulo();
 		DTFecha getFecha();
 		set<string> getAutores();
+		// cambio //
+		void setAutores(const set<string>& autores);
+		// cambio //
 };
 
 class Publicacion{
@@ -41,7 +44,15 @@ class Publicacion{
 		string DOI;
 		string titulo;
 		DTFecha fecha;
+		// cambio //
+		set<string> autores;
+		// cambio //
 	public:
+		// cambio //
+		Publicacion(string DOI, string titulo, DTFecha fecha);
+		virtual ~Publicacion(); 
+		set<string> getAutores() const;
+		// cambio //	
 		DTRefer getDT();
 		virtual bool contienePalabra(string palabra) = 0 ;
 };

@@ -19,6 +19,31 @@ int DTFecha::getAnio(){
 	return this->anio;
 }
 
+//cambio//
+Publicacion::Publicacion(string DOI, string titulo, DTFecha fecha){
+		this->DOI = DOI;
+		this->titulo = titulo;
+		this->fecha = fecha;
+}
+
+Publicacion::~Publicacion() {}
+
+set<string> DTRefer::getAutores() const {
+    return autores;
+}
+
+void DTRefer::setAutores(const set<string>& autores) {
+    this->autores = autores;
+}
+//cambio//
+
+// cambio IMPLEMENTACION GETDT //
+DTRefer Publicacion::getDT(const Publicacion& publicada){
+    DTRefer referencia(publicada.getDOI(),publicada.getTitulo(),publicada.getFecha());
+    referencia.setAutores(publicada.getAutores());
+    return referencia;
+};
+// cambio IMPLEMENTACION GETDT //
 
 // Operaciones DTRefer //
 DTRefer:: DTRefer(string DOI, string titulo, DTFecha fecha){
