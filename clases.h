@@ -46,16 +46,17 @@ class Publicacion{
 		string DOI;
 		string titulo;
 		DTFecha fecha;
-		// cambio //
-		set<string> autores;
-		// cambio //
+		set<Investigador*> suInvestigador;
 	public:
-		// cambio //
 		Publicacion(string DOI, string titulo, DTFecha fecha);
+		Publicacion();
 		virtual ~Publicacion(); 
-		set<string> getAutores() const;
-		// cambio //	
+		// OPERACIONES //
+		string getDOI();
+		string getTitulo();
+		DTFecha getFecha();
 		DTRefer getDT();
+		void agregarInvestigador(Investigador* investigador);
 		virtual bool contienePalabra(string palabra) = 0 ;
 };
 
@@ -63,8 +64,14 @@ class ArticuloRevista : public Publicacion{
 	private:
 		string revista;
 		string extracto;
-	public:
-		bool contienePalabra(const string &palabra) const;
+	public:	
+		ArticuloRevista(string revista, string extracto);
+		~ArticuloRevista();
+		void setRevista(string revista);
+		void setExtracto(string extracto);
+		string getRevista();
+		string getExtracto();
+		bool contienePalabra(string palabra);
 };
 
 class Libro : public Publicacion{
@@ -72,6 +79,8 @@ class Libro : public Publicacion{
 		string editorial;
 		set<string> palabrasDestacadas;
 	public:
+		Libro(string editorial, set<string> palDest);
+		~Libro();	
 		bool contienePalabra(string palabra);
 };
 
@@ -80,6 +89,8 @@ class PaginaWeb : public Publicacion{
 		string url;
 		string contenidoExtraido;
 	public:
+		PaginaWeb(string url,string contExt);
+		~PaginaWeb();
 		bool contienePalabra(string palabra);
 };
 
@@ -88,7 +99,13 @@ class Investigador{
 		string ORCID;
 		string nombre;
 		string institucion;
+		set<Publicacion*> susPublicaciones;
 	public:
+		Investigador(string ORCID, string nombre, string institucion);
+		string getORCID();
+		string getNombre();
+		string getInstitucion();
+		// OPERACIONES //
 		string toString();
 		set<string> listaPublicaciones(DTFecha desde,string palabra);
 };

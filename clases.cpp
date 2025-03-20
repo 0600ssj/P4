@@ -38,12 +38,14 @@ DTRefer::DTRefer(string DOI, string titulo, DTFecha fecha, set<string> autores){
 DTRefer::~DTRefer(){}
 
 
- ostream& operator << (ostream& cout, DTRefer& ref){
-	cout<<ref.getDOI()<<"->"<<ref.getTitulo()<<"("<<ref.getFecha().getDia()<<"/"<<ref.getFecha().getMes()<<"/"<<ref.getFecha().getAnio()<<")""/";
+ostream& operator << (ostream& cout, DTRefer& ref){
+	cout<<ref.getDOI()<<"->"<<ref.getTitulo()<<"("
+	<<ref.getFecha().getDia()<<"/"
+	<<ref.getFecha().getMes()<<"/"
+	<<ref.getFecha().getAnio()<<")""/";
 	
 	set<string> autor_es = ref.getAutores();
-    //cambio(usar el autor_es y no ref.getAutores (obviedad))
-	auto it = autor_es.begin();
+	set<string>:: iterator it = autor_es.begin();
 	while(it != autor_es.end()){
 		cout<<*it;
 		if(++it != autor_es.end()) cout << ",";
@@ -68,57 +70,134 @@ set<string> DTRefer::getAutores(){
     return this->autores;
 };
 
-
-
-set<string> DTRefer::getAutores()  {
-    return autores;
-};
-
 void DTRefer::setAutores(const set<string>& autores) {
     this->autores = autores;
 };
-//cambio//
-
-
-
-
 
 //-------------------Operaciones Publicacion-----------------------//
-//cambio//
 Publicacion::Publicacion(string DOI, string titulo, DTFecha fecha){
 	this->DOI = DOI;
 	this->titulo = titulo;
 	this->fecha = fecha;
 };
 
-// cambio IMPLEMENTACION GETDT //
-DTRefer Publicacion::getDT(){
-    DTRefer referencia = DTRefer(this->DOI,this->titulo,this->fecha,this->autores); 
-    return referencia;
-};
+Publicacion::Publicacion(){};
+
+string Publicacion::getDOI() { 
+	return DOI;
+}
+
+string Publicacion::getTitulo() { 
+	return titulo; 
+}
+
+DTFecha Publicacion::getFecha() { 
+	return fecha;
+}
+
+DTRefer Publicacion::getDT() {
+    set<string> nombresAutores;
+    for (Investigador* autor : inv) {
+        nombresAutores.insert(autor->toString());
+    }
+    return DTRefer(DOI, titulo, fecha, nombresAutores);
+}
+
+void Publicacion::agregarInvestigador(Investigador* investigador) {
+    inv.insert(investigador);
+}
+
 
 Publicacion::~Publicacion(){};
 
 bool Publicacion::contienePalabra(string palabra){}
 
 
+// ---------------------------------- Operaciones ArticuloRevista --------------------------//
+ArticuloRevista::ArticuloRevista(string revista, string extracto){
+	this->revista = revista;
+	this->extracto = extracto;
+}
 
+ArticuloRevista::~ArticuloRevista(){};
 
-//---------------------------------- Operaciones ArticuloRevista --------------------------//
-bool ArticuloRevista::contienePalabra(const string &palabra) const {
+bool ArticuloRevista::contienePalabra(string palabra) {
     return extracto.find(palabra) != std::string::npos;
-
 }
 
 
-// -------------------------------Operaciones contienePalabra ----------------------------//
-bool Libro::contienePalabra(string palabra){};
+// -------------------------------Operaciones Libro ----------------------------//
+Libro::Libro(string editorial, set<string> palDest){
+	this->editorial = editorial;
+	this->palabrasDestacadas = palDest;
+};
+
+Libro::~Libro(){};
+
+bool Libro::contienePalabra(string palabra){
+	return palabrasDestacadas.find(palabra) != palabrasDestacadas.end();
+};
 
 
 //---------------------------------- Operaciones PaginaWeb ----------------------------------//
-bool PaginaWeb::contienePalabra(string palabra){};
+PaginaWeb::PaginaWeb(string url,string contExt){
+	this->url = url;
+	this->contenidoExtraido = contExt;
+};
 
+PaginaWeb::~PaginaWeb(){};
+
+bool PaginaWeb::contienePalabra(string palabra){
+	return contenidoExtraido.find(palabra) != std::string::npos;
+};
 
 // ------------------------------ Operaciones Investigador -----------------------------------//
-string Investigador::toString(){};
-set<string> Investigador ::listaPublicaciones(DTFecha desde,string palabra){};
+
+Investigador::Investigador(string ORCID, string nombre, string institucion) {
+	ORCID = this->ORCID;
+	nombre = this->nombre;
+	institucion = this->institucion;
+};
+
+string Investigador :: getORCID(){
+	return ORCID;
+};
+
+string Investigador :: getNombre(){
+	return nombre;
+};
+
+string Investigador :: getInstitucion(){
+	return institucion;
+};
+
+string Investigador::toString(){
+	return ORCID + "->" + nombre + "/" + institucion;
+};
+
+// class Publicacion{
+// 	protected:
+// 		string DOI;
+// 		string titulo;
+// 		DTFecha fecha;
+// 		set<Investigador*> inv;
+// 	public:
+// 		Publicacion(string DOI, string titulo, DTFecha fecha);
+// 		virtual ~Publicacion(); 
+// 		// OPERACIONES //
+// 		string getDOI();
+// 		string getTitulo();
+// 		DTFecha getFecha();
+// 		DTRefer getDT();
+// 		void agregarInvestigador(Investigador* investigador);
+// 		virtual bool contienePalabra(string palabra) = 0 ;
+// };
+set<string> Investigador ::listarPublicaciones(DTFecha desde,string palabra){
+	set<string> nuevoSet;
+    for (const string& pub : susPublis) {
+		if(dynamic_cast(Libro)(pub)){
+			
+		}
+	}
+    return DTRefer(DOI, titulo, fecha, nombresAutores);
+};
