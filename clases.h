@@ -4,7 +4,6 @@
 #include <iostream>
 #include <list>
 #include <map>
-#include <iostream>
 #include <string>
 #include <set>
 
@@ -14,7 +13,8 @@ class DTFecha{
 	private:
 		int dia,mes,anio;
 	public:
-		DTFecha(int,int,int);
+		DTFecha();
+		DTFecha(int d,int m,int a);
 		~DTFecha();
 		int getDia();
 		int getMes();
@@ -28,15 +28,17 @@ class DTRefer{
 		DTFecha fecha;
 		set<string> autores;
 	public:
-		DTRefer(string DOI, string titulo, DTFecha fecha);
+		DTRefer(string DOI, string titulo, DTFecha fecha, set<string> autores);
 		~DTRefer();
 		string getDOI();
 		string getTitulo();
 		DTFecha getFecha();
 		set<string> getAutores();
-		// cambio //
 		void setAutores(const set<string>& autores);
-		// cambio //
+
+		//para mostrar DTRefer
+		friend std::ostream& operator<<(std::ostream&, const DTRefer& refer);
+		
 };
 
 class Publicacion{
@@ -62,7 +64,7 @@ class ArticuloRevista : public Publicacion{
 		string revista;
 		string extracto;
 	public:
-		bool contienePalabra(string palabra);
+		bool contienePalabra(const string &palabra) const;
 };
 
 class Libro : public Publicacion{
