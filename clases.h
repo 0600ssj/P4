@@ -13,12 +13,18 @@ class DTFecha{
 	private:
 		int dia,mes,anio;
 	public:
+		// CONSTRUCTORES //
 		DTFecha();
-		DTFecha(int d,int m,int a);
+		DTFecha(int dia,int mes,int anio);
 		~DTFecha();
+		// GETTERS //
 		int getDia();
 		int getMes();
-		int getAnio();	
+		int getAnio();
+		// SETTERS //
+		void setDia(int dia);
+		void setMes(int mes);
+		void setAnio(int anio);
 };
 
 class DTRefer{
@@ -28,33 +34,46 @@ class DTRefer{
 		DTFecha fecha;
 		set<string> autores;
 	public:
+		// CONSTRUCTORES //
+		DTRefer();
 		DTRefer(string DOI, string titulo, DTFecha fecha, set<string> autores);
 		~DTRefer();
+		// GETTERS //
 		string getDOI();
 		string getTitulo();
 		DTFecha getFecha();
 		set<string> getAutores();
-		void setAutores(const set<string>& autores);
-
-		//para mostrar DTRefer
-		friend std::ostream& operator<<(std::ostream&, const DTRefer& refer);
-		
+		// SETTERS //
+		void setDOI(string DOI);
+		void setTitulo(string titulo);
+		void setFecha(DTFecha fecha);
+		void setAutores(const set<string>& autores); // ?
+		// OPERACIONES //
+		friend ostream& operator<<(ostream&, const DTRefer& refer);
 };
 
 class Publicacion{
-	protected:
+	private:
 		string DOI;
 		string titulo;
 		DTFecha fecha;
 		set<Investigador*> suInvestigador;
 	public:
-		Publicacion(string DOI, string titulo, DTFecha fecha);
+		// CONSTRUCTORES //
 		Publicacion();
-		virtual ~Publicacion(); 
-		// OPERACIONES //
+		Publicacion(string DOI, string titulo, DTFecha fecha);
+		virtual ~Publicacion(); // ?
+		// GETTERS //
 		string getDOI();
 		string getTitulo();
 		DTFecha getFecha();
+		set<Investigador*> getSuInvestigador(); // Preguntar si va
+		// SETTERS //
+		void setDOI(string DOI);
+		void setTitulo(string titulo);
+		void setFecha(DTFecha fecha);
+		void setSuInvestigador(set<Investigador*> suInvestigador); // Preguntar si va
+		// OPERACIONES //
 		DTRefer getDT();
 		void agregarInvestigador(Investigador* investigador);
 		virtual bool contienePalabra(string palabra) = 0 ;
@@ -65,12 +84,17 @@ class ArticuloRevista : public Publicacion{
 		string revista;
 		string extracto;
 	public:	
+		// CONSTRUCTORES //
+		ArticuloRevista();
 		ArticuloRevista(string revista, string extracto);
 		~ArticuloRevista();
-		void setRevista(string revista);
-		void setExtracto(string extracto);
+		// GETTERS //
 		string getRevista();
 		string getExtracto();
+		// SETTERS //
+		void setRevista(string revista);
+		void setExtracto(string extracto);
+		// OPERACIONES //
 		bool contienePalabra(string palabra);
 };
 
@@ -79,8 +103,17 @@ class Libro : public Publicacion{
 		string editorial;
 		set<string> palabrasDestacadas;
 	public:
+		// CONSTRUCTORES //
+		Libro();
 		Libro(string editorial, set<string> palDest);
-		~Libro();	
+		~Libro();
+		// GETTERS //
+		string getEditorial();
+		set<string> getPalDest();
+		// SETTERS //
+		void setEditorial(string editorial);
+		void setPalDest(set<string> palDest);
+		// OPERACIONES //
 		bool contienePalabra(string palabra);
 };
 
@@ -89,9 +122,19 @@ class PaginaWeb : public Publicacion{
 		string url;
 		string contenidoExtraido;
 	public:
+		// CONSTRUCTORES //
+		PaginaWeb();
 		PaginaWeb(string url,string contExt);
 		~PaginaWeb();
+		// GETTERS //
+		string getUrl();
+		string getContenidoExtraido();
+		// SETTERS //
+		void setUrl(string url);
+		void setContenidoExtraido(string contenidoExtraido);
+		// OPERACIONES //
 		bool contienePalabra(string palabra);
+
 };
 
 class Investigador{
@@ -101,10 +144,20 @@ class Investigador{
 		string institucion;
 		set<Publicacion*> susPublicaciones;
 	public:
+		// CONSTRUCTORES //
+		Investigador();
 		Investigador(string ORCID, string nombre, string institucion);
+		~Investigador();
+		// GETTERS //
 		string getORCID();
 		string getNombre();
 		string getInstitucion();
+		set<Publicacion*> getSusPublicaciones(); // Preguntar si va
+		// SETTERS //
+		void setORCID(string ORCID);
+		void setNombre(string nombre);
+		void setInstitucion(string institucion);
+		void setSusPublicaciones(string ORCID, string nombre, string institucion); // Preguntar si va
 		// OPERACIONES //
 		string toString();
 		set<string> listaPublicaciones(DTFecha desde,string palabra);
